@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { 
@@ -28,12 +30,12 @@ export default function DashboardPage() {
   const carregarClientes = async () => {
     try {
       setLoading(true);
-      // Utiliza a variável de ambiente se existir, caso contrário usa o localhost para desenvolvimento
       const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
       const response = await axios.get(`${API_URL}/api/v1/clientes/`);
       setClientes(response.data);
     } catch (error) {
       console.error("Erro ao carregar clientes do backend:", error);
+      setClientes([]); // Garante que a lista fica vazia e não quebra a interface
     } finally {
       setLoading(false);
     }
